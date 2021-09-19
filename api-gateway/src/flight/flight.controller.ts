@@ -17,11 +17,16 @@ import { ClientProxySuperFlights } from 'src/common/proxy/client-proxy';
 import { FlightDTO } from './dto/flight.dto';
 
 @ApiTags('Flights')
-@Controller('flight')
+@Controller('api/v2/flight')
 export class FlightController {
   constructor(private readonly clientProxy: ClientProxySuperFlights) {}
   private _clientProxyFlights = this.clientProxy.clientProxyFlights();
   private _clientProxyPassengers = this.clientProxy.clientProxyPassengers();
+
+  async onApplicationBootstrap() {
+    await this._clientProxyFlights.connect();
+    await this._clientProxyPassengers.connect();
+  }
 
   @Post()
   create(@Body() flightDTO: FlightDTO): Observable<IFlight> {
