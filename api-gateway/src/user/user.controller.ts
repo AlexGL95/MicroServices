@@ -20,6 +20,10 @@ export class UserController {
   constructor(private readonly clientProxy: ClientProxySuperFlights) {}
   private _clientProxyUser = this.clientProxy.clientProxyUsers();
 
+  async onApplicationBootstrap() {
+    await this._clientProxyUser.connect();
+  }
+
   @Post()
   create(@Body() userDTO: UserDTO): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.CREATE, userDTO);
