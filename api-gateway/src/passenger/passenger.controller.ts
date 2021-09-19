@@ -20,6 +20,10 @@ export class PassengerController {
   constructor(private readonly clientProxy: ClientProxySuperFlights) {}
   private _clientProxyPassengers = this.clientProxy.clientProxyPassengers();
 
+  async onApplicationBootstrap() {
+    await this._clientProxyPassengers.connect();
+  }
+
   @Post()
   create(@Body() passengerDTO: PassengerDTO): Observable<IPassenger> {
     return this._clientProxyPassengers.send(passengerMSG.CREATE, passengerDTO);

@@ -1,47 +1,35 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { PassengerService } from './passenger.service';
 import { PassengerDTO } from './dto/passenger.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { passengerMSG } from 'src/common/constants';
 
-@ApiTags('passengers')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
-@Controller('api/v1/passenger')
+@Controller()
 export class PassengerController {
   constructor(private readonly passengerService: PassengerService) {}
 
-  @Post()
-  create(@Body() passengerDTO: PassengerDTO) {
+  @MessagePattern(passengerMSG.CREATE)
+  create(@Payload() passengerDTO: PassengerDTO) {
     return this.passengerService.create(passengerDTO);
   }
 
-  @Get()
+  @MessagePattern(passengerMSG.FIND_ALL)
   findAll() {
     return this.passengerService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @MessagePattern(passengerMSG.FIND_ONE)
+  findOne(@Payload() id: string) {
     return this.passengerService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() passengerDTO: PassengerDTO) {
-    return this.passengerService.update(id, passengerDTO);
+  @MessagePattern(passengerMSG.UPDATE)
+  update(@Payload() payload: any) {
+    return this.passengerService.update(payload.id, payload.passengerDTO);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string) {
+  @MessagePattern(passengerMSG.DELETE)
+  delete(@Payload() id: string) {
     return this.passengerService.delete(id);
   }
 }
