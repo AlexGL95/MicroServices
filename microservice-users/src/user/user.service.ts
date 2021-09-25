@@ -8,14 +8,12 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(USER.name) private readonly model: Model<IUser>) {}
-
   async checkPassword(password: string, passwordDB: string): Promise<boolean> {
     return await bcrypt.compare(password, passwordDB);
   }
 
   async findByUsername(username: string) {
-    return await this.model.findOne({ username });
+    //return await this.model.findOne({ username });
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -23,31 +21,36 @@ export class UserService {
     return await bcrypt.hash(password, salt);
   }
 
-  async create(userDTO: UserDTO): Promise<IUser> {
+  async create(userDTO: UserDTO): Promise<boolean> {
     const hash = await this.hashPassword(userDTO.password);
-    const newUser = new this.model({ ...userDTO, password: hash });
-    return await newUser.save();
+    // const newUser = new this.model({ ...userDTO, password: hash });
+    // return await newUser.save();
+    return true;
   }
 
-  async findAll(): Promise<IUser[]> {
-    return await this.model.find();
+  async findAll(): Promise<boolean> {
+    return true;
+    //return await this.model.find();
   }
 
-  async findOne(id: string): Promise<IUser> {
-    return await this.model.findById(id);
+  async findOne(id: string): Promise<boolean> {
+    return true;
+    //return await this.model.findById(id);
   }
 
-  async update(id: string, userDTO: UserDTO): Promise<IUser> {
+  async update(id: string, userDTO: UserDTO): Promise<boolean> {
+    return true;
     const hash = await this.hashPassword(userDTO.password);
     const user = { ...userDTO, password: hash };
-    return await this.model.findByIdAndUpdate(id, user, { new: true });
+    // return await this.model.findByIdAndUpdate(id, user, { new: true });
   }
 
   async delete(id: string) {
-    await this.model.findByIdAndDelete(id);
+    return true;
+    /*await this.model.findByIdAndDelete(id);
     return {
       status: HttpStatus.OK,
       msg: 'Deleted',
-    };
+    };*/
   }
 }

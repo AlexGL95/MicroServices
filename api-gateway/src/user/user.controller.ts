@@ -31,7 +31,7 @@ export class UserController {
 
   @Get()
   findAll(): Observable<IUser[]> {
-    return this._clientProxyUser.send(UserMSG.FIND_ALL, '');
+    return this._clientProxyUser.send(UserMSG.FIND_ALL, null);
   }
 
   @Get(':idUser')

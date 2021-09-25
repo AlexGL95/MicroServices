@@ -35,7 +35,7 @@ export class UserController {
 
   @MessagePattern(UserMSG.VALID_USER)
   async validateUser(@Payload() payload: any): Promise<any> {
-    const { username, password } = payload;
+    /*const { username, password } = payload;
     const user = await this.userService.findByUsername(username);
     const isValidPassword = await this.userService.checkPassword(
       password,
@@ -44,6 +44,6 @@ export class UserController {
 
     if (user && isValidPassword) return user;
 
-    return null;
+    return null;*/
   }
 }
