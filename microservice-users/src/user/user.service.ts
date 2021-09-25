@@ -29,6 +29,7 @@ export class UserService {
   }
 
   async findAll(): Promise<boolean> {
+    console.log('Llego un find Alex');
     return true;
     //return await this.model.find();
   }

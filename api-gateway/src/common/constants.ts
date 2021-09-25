@@ -1,5 +1,5 @@
 export enum RabbitMQ {
-  UserQueue = 'users',
+  UserQueue = 'usersAl',
   PassengerQueue = 'passengers',
   FlightQueue = 'flights',
 }
